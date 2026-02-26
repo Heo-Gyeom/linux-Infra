@@ -25,6 +25,9 @@ pipeline {
         stage('Deploy') {
             steps {
                 script {
+                    echo "☕ Spring Boot가 구동될 때까지 20초간 대기합니다..."
+                    sleep 20  // 초 단위
+
                     def servers = ['192.168.56.11', '192.168.56.12']
                     servers.each { server_ip ->
                         echo "🚀 Deploying to ${server_ip}..."
