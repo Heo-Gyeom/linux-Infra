@@ -1,4 +1,4 @@
-pipeline {
+`pipeline {
     agent any
     environment {
         REPO_URL = 'https://github.com/Heo-Gyeom/linux-Infra.git'
@@ -31,7 +31,7 @@ pipeline {
                         sshagent([env.SSH_KEY_ID]) {
                             sh """
                                 # JAR 파일 복사
-                                scp build/libs/*.jar ${env.DEPLOY_USER}@${server_ip}:/opt/linux-infra/linux-infra.jar
+                                scp -o StrictHostKeyChecking=no build/libs/*.jar ${env.DEPLOY_USER}@${server_ip}:/opt/linux-infra/linux-infra.jar
 
                                 # 서비스 재시작
                                 ssh -o StrictHostKeyChecking=no ${env.DEPLOY_USER}@${server_ip} "
@@ -67,3 +67,4 @@ pipeline {
         failure { echo '💥 배포 실패!' }
     }
 }
+`
