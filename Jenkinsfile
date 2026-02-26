@@ -51,15 +51,37 @@ pipeline {
                 }
             }
         }
+
+
+
         stage('Health Check') {
             steps {
                 script {
                     def servers = ['192.168.56.11', '192.168.56.12']
                     servers.each { server_ip ->
-                        sh """
-                            echo "🩺 Health check ${server_ip}..."
-                            curl -f -m 30 http://${server_ip}:8080/actuator/health || exit 1
-                        """
+                        echo "🩺 Health check ${server_ip} (최대 60초 대기)..."
+
+                        int retries = 12  // 5초 * 12 = 60초
+                        int waitSec = 5
+                        int status = 1
+
+                        while (retries > 0 && status != 0) {
+                            status = sh(
+                                script: "curl -f -m 5 http://${server_ip}:8080/actuator/health >/dev/null 2>&1",
+                                returnStatus: true
+                            )
+                            if (status == 0) {
+                                echo "✅ ${server_ip} UP!"
+                                break
+                            }
+                            echo "⏳ ${server_ip} 아직 준비 안 됨. ${waitSec}초 후 재시도... (남은 횟수: ${retries-1})"
+                            sleep(waitSec)
+                            retries--
+                        }
+
+                        if (status != 0) {
+                            error "❌ ${server_ip} 헬스체크 실패"
+                        }
                     }
                 }
             }
