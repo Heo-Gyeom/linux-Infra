@@ -1,4 +1,4 @@
-`pipeline {
+pipeline {
     agent any
     environment {
         REPO_URL = 'https://github.com/Heo-Gyeom/linux-Infra.git'
