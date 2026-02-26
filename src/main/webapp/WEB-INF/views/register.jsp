@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>회원 등록123</title>
+    <title>회원 등록456</title>
     <style>
         body {
             font-family: Arial, sans-serif;
