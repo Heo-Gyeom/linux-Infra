@@ -1,15 +1,19 @@
 pipeline {
     agent any
+    triggers {
+        githubPush()
+    }
     environment {
         REPO_URL    = 'https://github.com/Heo-Gyeom/linux-Infra.git'
         DEPLOY_USER = 'root'
         SSH_KEY_ID  = 'heogyeom'
     }
-
     stages {
         stage('Checkout') {
             steps {
-                git branch: 'main', credentialsId: 'github-token', url: env.REPO_URL
+                git branch: 'main',
+                    credentialsId: 'github-token',
+                    url: env.REPO_URL
             }
         }
 
@@ -21,6 +25,8 @@ pipeline {
 
         stage('Build') {
             steps {
+                sh 'pwd'
+                sh 'ls -la'
                 sh './gradlew clean build -x test'
                 sh 'ls -la build/libs/'
             }
@@ -34,7 +40,7 @@ pipeline {
                         echo "🚀 Deploying to ${server_ip}..."
                         sshagent([env.SSH_KEY_ID]) {
                             sh """
-                                scp -o StrictHostKeyChecking=no build/libs/*.jar ${env.DEPLOY_USER}@${server_ip}:/opt/linux-infra/linux-infra.jar
+                                scp -o StrictHostKeyChecking=no build/libs/example-0.0.1-SNAPSHOT.war ${env.DEPLOY_USER}@${server_ip}:/opt/linux-infra/linux-infra.jar
 
                                 ssh -o StrictHostKeyChecking=no ${env.DEPLOY_USER}@${server_ip} "
                                     cd /opt/linux-infra
@@ -58,7 +64,7 @@ pipeline {
                     servers.each { server_ip ->
                         echo "🩺 Health check ${server_ip} (최대 60초 대기)..."
 
-                        int retries = 12   // 5초 * 12회 = 최대 60초
+                        int retries = 12
                         int waitSec = 5
                         int status  = 1
 
