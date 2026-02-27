@@ -9,7 +9,7 @@ public class RegisterController {
 
     @GetMapping("/register")
     public String showRegisterForm() {
-        return "register";
+        return "register";  // JSP 대신 문자열 반환 테스트
     }
 
     @GetMapping("/")
