@@ -2,12 +2,17 @@ package org.example.example;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.ComponentScan;
+import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 
 @SpringBootApplication
-@ComponentScan(basePackages = {"org.example.example", "org.example.example.controller"})  // 명시적 추가
+public class ExampleApplication extends SpringBootServletInitializer {
 
-public class ExampleApplication {
+    @Override
+    protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
+        return application.sources(ExampleApplication.class);
+    }
+
     public static void main(String[] args) {
         SpringApplication.run(ExampleApplication.class, args);
     }
