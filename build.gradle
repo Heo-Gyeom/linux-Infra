@@ -39,7 +39,9 @@ tasks.named('test') {
 }
 
 bootJar {
-    from('src/main/webapp/WEB-INF') {
-        into('BOOT-INF/classes/META-INF/resources/WEB-INF')
+    enabled = true
+    archiveFileName = "example-0.0.1-SNAPSHOT.jar"
+    from("src/main/webapp") {
+        into "META-INF/resources"
     }
 }
