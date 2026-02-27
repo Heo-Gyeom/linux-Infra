@@ -32,7 +32,7 @@
     </style>
 </head>
 <body>
-<h2>회원 등록</h2>
+<h2>회원 등록123</h2>
 
 <form action="/register" method="post">
     <div class="form-group">
