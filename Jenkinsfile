@@ -27,7 +27,7 @@ pipeline {
             steps {
                 sh 'pwd'
                 sh 'ls -la'
-                sh './gradlew clean build -x test'
+                sh './gradlew clean bootWar -x test'
                 sh 'ls -la build/libs/'
             }
         }
@@ -40,7 +40,7 @@ pipeline {
                         echo "🚀 Deploying to ${server_ip}..."
                         sshagent([env.SSH_KEY_ID]) {
                             sh """
-                                scp -o StrictHostKeyChecking=no build/libs/example-0.0.1-SNAPSHOT.jar ${env.DEPLOY_USER}@${server_ip}:/opt/linux-infra/linux-infra.jar
+                                scp -o StrictHostKeyChecking=no build/libs/example-0.0.1-SNAPSHOT.war ${env.DEPLOY_USER}@${server_ip}:/opt/linux-infra/linux-infra.war
 
                                 ssh -o StrictHostKeyChecking=no ${env.DEPLOY_USER}@${server_ip} "
                                     cd /opt/linux-infra

@@ -1,5 +1,6 @@
 plugins {
     id 'java'
+    id 'war'
     id 'org.springframework.boot' version '4.0.3'
     id 'io.spring.dependency-management' version '1.1.7'
 }
@@ -32,16 +33,13 @@ dependencies {
     runtimeOnly 'org.postgresql:postgresql'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
 }
 
 tasks.named('test') {
     useJUnitPlatform()
 }
 
-bootJar {
-    enabled = true
-    archiveFileName = "example-0.0.1-SNAPSHOT.jar"
-    from("src/main/webapp") {
-        into "META-INF/resources"
-    }
+bootWar {
+    archiveFileName = "example-0.0.1-SNAPSHOT.war"
 }
