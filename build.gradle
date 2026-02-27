@@ -28,12 +28,12 @@ repositories {
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.apache.tomcat.embed:tomcat-embed-jasper'
+    implementation 'org.springframework.boot:spring-boot-starter-tomcat'  // providedRuntime → implementation
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
     runtimeOnly 'org.postgresql:postgresql'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
-    providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
 }
 
 tasks.named('test') {
@@ -43,3 +43,4 @@ tasks.named('test') {
 bootWar {
     archiveFileName = "example-0.0.1-SNAPSHOT.war"
 }
+
